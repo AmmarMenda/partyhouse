@@ -1,0 +1,74 @@
+# Dependencies
+node_modules/
+*.pnp
+.pnp.js
+
+# Production builds
+dist/
+dist-ssr/
+build/
+.next/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Cache and temp files
+*.local
+.cache/
+.eslintcache
+.node_repl_history
+
+# IDE and Editor files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.project
+.classpath
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# OS files
+.DS_Store
+.AppleDouble
+.LSOverride
+*.cab
+*.msi
+*.msix
+*.msm
+.MSI*
+
+# IDEs
+*.vim
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Build artifacts
+*.tar.gz
+*.zip
+
+# Development
+.env.test
+.env.test.local
