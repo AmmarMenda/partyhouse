@@ -49,3 +49,52 @@
     opacity: 1;
   }
 }
+
+/* Brutalist Clerk Overrides */
+[class^="cl-"], [class*=" cl-"] {
+  border-radius: 0px !important;
+}
+
+.cl-card {
+  border: 8px solid black !important;
+  box-shadow: 16px 16px 0px 0px rgba(0,0,0,1) !important;
+}
+
+.cl-formButtonPrimary, .cl-socialButtonsBlockButton, .cl-identityPreviewEditButton {
+  border: 4px solid black !important;
+  box-shadow: 6px 6px 0px 0px rgba(0,0,0,1) !important;
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+}
+
+.cl-formButtonPrimary:hover, .cl-socialButtonsBlockButton:hover, .cl-identityPreviewEditButton:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 8px 8px 0px 0px rgba(0,0,0,1) !important;
+  background-color: #facc15 !important;
+  color: black !important;
+}
+
+.cl-formButtonPrimary:active, .cl-socialButtonsBlockButton:active, .cl-identityPreviewEditButton:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px 0px rgba(0,0,0,1) !important;
+}
+
+.cl-formFieldInput {
+  border: 4px solid black !important;
+  font-weight: bold !important;
+}
+
+.cl-formFieldInput:focus {
+  border-color: #facc15 !important;
+}
+
+.cl-headerTitle, .cl-headerSubtitle, .cl-dividerText, .cl-formFieldLabel {
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+  color: black !important;
+}
+
+.cl-dividerLine {
+  background-color: black !important;
+  height: 4px !important;
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, Calendar, MapPin, Ticket, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Calendar, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,24 +59,43 @@ function App() {
     <div className="min-h-screen bg-[#f0f0f0] text-black">
       {/* Top Bar */}
       <nav className="bg-white border-b-4 border-black p-6 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="hidden md:block w-1/4">
-             {/* Left spacer for desktop */}
+        <div className="max-w-7xl mx-auto grid grid-cols-3 items-center w-full">
+          <div className="flex justify-start">
+             {/* Left spacer to balance the grid for perfect centering */}
           </div>
           
-          <div className="flex-1 flex justify-center">
-            <h1 className="text-4xl font-black uppercase tracking-tighter leading-none">
+          <div className="flex justify-center items-center min-w-max" style={{ gap: "64px" }}>
+            <img 
+              src="/ticket.png" 
+              alt="Logo" 
+              className="w-auto"
+              style={{ height: "48px" }}
+            />
+            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none whitespace-nowrap">
               PARTYHOUSE
             </h1>
           </div>
           
-          <div className="w-1/4 flex justify-end gap-3 md:gap-4">
-            <button className="bg-white border-2 border-black px-4 md:px-6 py-2 font-bold uppercase hover:bg-black hover:text-white transition-colors brutalist-shadow-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none text-xs md:text-sm">
-              Sign In
-            </button>
-            <button className="bg-black text-white border-2 border-black px-4 md:px-6 py-2 font-bold uppercase hover:bg-white hover:text-black transition-colors brutalist-shadow-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none text-xs md:text-sm">
-              Join
-            </button>
+          <div className="flex justify-end items-center min-w-max">
+            <SignedOut>
+              <div className="flex gap-4 md:gap-10">
+                <SignInButton mode="modal">
+                  <button className="bg-white border-4 border-black px-6 md:px-12 py-3 md:py-5 font-black uppercase hover:bg-black hover:text-white transition-colors brutalist-shadow-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none text-sm md:text-xl">
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="bg-black text-white border-4 border-black px-6 md:px-12 py-3 md:py-5 font-black uppercase hover:bg-white hover:text-black transition-colors brutalist-shadow-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none text-sm md:text-xl">
+                    Join
+                  </button>
+                </SignUpButton>
+              </div>
+            </SignedOut>
+            <SignedIn>
+              <div className="border-4 border-black brutalist-shadow-sm rounded-full overflow-hidden w-[48px] h-[48px] md:w-[64px] md:h-[64px] flex items-center justify-center bg-white cursor-pointer hover:scale-105 transition-transform">
+                <UserButton afterSignOutUrl="/"/>
+              </div>
+            </SignedIn>
           </div>
         </div>
       </nav>
@@ -88,22 +108,22 @@ function App() {
             <span className="bg-yellow-400 px-4 py-2 border-4 border-black brutalist-shadow inline-block mt-6">EXPERIENCE</span>
           </h2>
           
-          <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto mt-20">
-            <div className={`flex border-4 border-black bg-white brutalist-shadow transition-all ${isSearching ? 'opacity-50' : ''}`}>
-              <div className="flex-1 flex items-center px-4 border-r-4 border-black">
-                <Search className="text-black w-6 h-6 mr-3" />
+          <form onSubmit={handleSearch} className="relative max-w-5xl mx-auto mt-20">
+            <div className={`flex border-8 border-black bg-white brutalist-shadow transition-all ${isSearching ? 'opacity-50' : ''}`}>
+              <div className="flex-1 flex items-center px-8 border-r-8 border-black">
+                <Search className="text-black w-8 h-8 mr-6" />
                 <input
                   type="text"
                   placeholder="SEARCH EVENTS..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full py-5 font-bold uppercase focus:outline-none placeholder:text-gray-400 bg-transparent text-lg"
+                  className="w-full py-6 font-black uppercase focus:outline-none placeholder:text-gray-400 bg-transparent text-2xl md:text-3xl"
                 />
               </div>
               <button 
                 type="submit"
                 disabled={isSearching}
-                className="bg-black text-white px-10 py-5 font-black uppercase hover:bg-yellow-400 hover:text-black transition-colors text-lg active:bg-yellow-500"
+                className="bg-black text-white px-12 md:px-16 py-6 font-black uppercase hover:bg-yellow-400 hover:text-black transition-colors text-2xl md:text-3xl active:bg-yellow-500"
               >
                 {isSearching ? '...' : 'GO'}
               </button>
@@ -156,7 +176,7 @@ function App() {
                 <div className="bg-white border-4 border-black brutalist-shadow-hover h-full flex flex-col transition-transform">
                   <div className="h-72 bg-gray-200 border-b-4 border-black relative overflow-hidden group">
                     <img 
-                      src={`https://picsum.photos/seed/${event.id}/800/600`} 
+                      src={event.image_url || `https://picsum.photos/seed/${event.id}/800/600`} 
                       alt={event.title}
                       className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 hover:scale-105"
                     />
@@ -225,7 +245,7 @@ function App() {
         </div>
       </footer>
 
-      <style jsx>{`
+      <style>{`
         .no-scrollbar::-webkit-scrollbar {
           display: none;
         }
