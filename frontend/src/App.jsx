@@ -64,12 +64,12 @@ function App() {
              {/* Left spacer to balance the grid for perfect centering */}
           </div>
           
-          <div className="flex justify-center items-center min-w-max" style={{ gap: "64px" }}>
+          <div className="flex justify-center items-center gap-3 md:gap-4 min-w-max">
             <img 
               src="/ticket.png" 
               alt="Logo" 
-              className="w-auto"
-              style={{ height: "48px" }}
+              className="w-auto rotate-[-8deg] hover:rotate-0 transition-transform duration-300"
+              style={{ height: "52px" }}
             />
             <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none whitespace-nowrap">
               PARTYHOUSE
@@ -109,28 +109,83 @@ function App() {
           </h2>
           
           <form onSubmit={handleSearch} className="relative max-w-5xl mx-auto mt-20">
-            <div className={`flex border-8 border-black bg-white brutalist-shadow transition-all ${isSearching ? 'opacity-50' : ''}`}>
-              <div className="flex-1 flex items-center px-8 border-r-8 border-black">
-                <Search className="text-black w-8 h-8 mr-6" />
+            <div className={`flex flex-col md:flex-row border-[6px] md:border-8 border-black bg-white transition-all group ${isSearching ? 'opacity-50' : ''}`} style={{ boxShadow: '12px 12px 0px 0px rgba(0,0,0,1)' }}>
+              {/* Search Input Section */}
+              <div className="flex-1 flex items-center px-6 md:px-10 py-5 md:py-8 border-b-[6px] md:border-b-0 md:border-r-8 border-black bg-white group-hover:bg-yellow-50 transition-colors">
+                <div className="bg-black p-3 md:p-4 mr-4 md:mr-6 border-4 border-black" style={{ boxShadow: '4px 4px 0px 0px rgba(250,204,21,1)' }}>
+                  <Search className="text-white w-6 h-6 md:w-8 md:h-8" />
+                </div>
                 <input
                   type="text"
-                  placeholder="SEARCH EVENTS..."
+                  placeholder="WHAT ARE YOU LOOKING FOR?"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full py-6 font-black uppercase focus:outline-none placeholder:text-gray-400 bg-transparent text-2xl md:text-3xl"
+                  className="w-full py-2 md:py-4 font-black uppercase focus:outline-none placeholder:text-gray-400 bg-transparent text-xl md:text-3xl tracking-tight"
                 />
               </div>
+              {/* Search Button */}
               <button 
                 type="submit"
                 disabled={isSearching}
-                className="bg-black text-white px-12 md:px-16 py-6 font-black uppercase hover:bg-yellow-400 hover:text-black transition-colors text-2xl md:text-3xl active:bg-yellow-500"
+                className="relative bg-black text-white px-10 md:px-20 py-5 md:py-8 font-black uppercase text-xl md:text-3xl tracking-wider overflow-hidden group/btn"
               >
-                {isSearching ? '...' : 'GO'}
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  {isSearching ? (
+                    <span className="animate-pulse">SEARCHING...</span>
+                  ) : (
+                    <>
+                      <span>SEARCH</span>
+                      <span className="inline-block transition-transform group-hover/btn:translate-x-2">→</span>
+                    </>
+                  )}
+                </span>
+                <span className="absolute inset-0 bg-yellow-400 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
+                <span className="absolute inset-0 flex items-center justify-center text-black font-black translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 delay-75">
+                  <span className="flex items-center gap-3">
+                    <span>SEARCH</span>
+                    <span className="inline-block">→</span>
+                  </span>
+                </span>
               </button>
             </div>
+            {/* Decorative Elements - Samizdat-inspired */}
+            <div className="hidden md:block absolute -bottom-3 -right-3 w-6 h-6 bg-yellow-400 border-4 border-black"></div>
+            <div className="hidden md:block absolute -top-3 -left-3 w-4 h-4 bg-black"></div>
           </form>
+          
+          {/* Quick Filter Tags - Gumroad-inspired */}
+          <div className="flex flex-wrap justify-center gap-3 mt-10">
+            {['CONCERTS', 'PARTIES', 'ART SHOWS', 'UNDERGROUND', 'FREE EVENTS'].map((tag) => (
+              <button
+                key={tag}
+                onClick={() => {
+                  setSearchTerm(tag);
+                  fetchEvents(tag);
+                }}
+                className="px-5 py-2 bg-white border-4 border-black font-black text-sm uppercase tracking-wider hover:bg-yellow-400 hover:-translate-y-1 transition-all"
+                style={{ boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
+
+      {/* Marquee Banner - Samizdat-inspired */}
+      <div className="bg-black text-white py-3 border-y-4 border-yellow-400 overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap flex">
+          {[...Array(2)].map((_, i) => (
+            <span key={i} className="flex items-center">
+              <span className="mx-8 text-lg font-black uppercase tracking-widest">★ UNDERGROUND EVENTS</span>
+              <span className="mx-8 text-lg font-black uppercase tracking-widest">★ DIY SHOWS</span>
+              <span className="mx-8 text-lg font-black uppercase tracking-widest">★ HOUSE PARTIES</span>
+              <span className="mx-8 text-lg font-black uppercase tracking-widest">★ ART GALLERIES</span>
+              <span className="mx-8 text-lg font-black uppercase tracking-widest">★ LIVE MUSIC</span>
+            </span>
+          ))}
+        </div>
+      </div>
 
       {/* Events Sections */}
       <main className="max-w-7xl mx-auto px-6 py-20">
